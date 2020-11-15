@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SMP-Core">
+    <output-path>$PROJECT_DIR$/../Output/SMP-Core</output-path>
+    <root id="archive" name="SMP-Core.jar">
+      <element id="module-output" name="SMP" />
+    </root>
+  </artifact>
+</component>
