@@ -23,7 +23,7 @@ public class ServerListener extends MainListener {
             public void run() {
                 getInstance().setStarted(true);
                 getInstance().getRepository().setLastServerStart();
-                UtilMessage.log("SMP", ChatColor.GREEN + "Plugin Enabled!");
+                UtilMessage.log("SMP-Core", ChatColor.GREEN + "Plugin Enabled!");
             }
         }.runTaskLater(getInstance(), 10L);
     }
@@ -35,6 +35,7 @@ public class ServerListener extends MainListener {
             Bukkit.getOnlinePlayers().forEach(p -> p.kickPlayer(ChatColor.WHITE + "Server is stopping or restarting!"));
         }
         getInstance().getRepository().setLastServerStop();
+        UtilMessage.log("SMP-Core", ChatColor.RED + "Plugin Disabled!");
         Bukkit.shutdown();
     }
 }

@@ -15,8 +15,10 @@ import me.trae.smp.events.ServerStartEvent;
 import me.trae.smp.events.ServerStopEvent;
 import me.trae.smp.gamer.GamerRepository;
 import me.trae.smp.gamer.GamerUtilities;
+import me.trae.smp.world.ChatListener;
 import me.trae.smp.world.PreConnectionListener;
 import me.trae.smp.world.ServerListener;
+import me.trae.smp.world.WorldListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -61,9 +63,11 @@ public class Main extends JavaPlugin {
     }
 
     private void registerEvents() {
-        new ServerListener(this);
-        new ConnectionListener(this);
         new ClientManager(this);
+        new ConnectionListener(this);
+        new ChatListener(this);
+        new ServerListener(this);
+        new WorldListener(this);
     }
 
     private void registerCommands() {
