@@ -1,0 +1,9 @@
+name: SMP
+author: Trae
+main: me.trae.smp.Main
+version: 1.0.0
+commands:
+  client:
+  ping:
+  smpreload:
+  playtime:
