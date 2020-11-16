@@ -108,13 +108,11 @@ public class WorldListener extends MainListener {
 
     @EventHandler
     public void onPlayerDamageByPlayer(final EntityDamageByEntityEvent e) {
-        if (!(getInstance().getRepository().isPvP())) {
-            if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
+            if (!(getInstance().getRepository().isPvP())) {
                 e.setCancelled(true);
                 return;
             }
-        }
-        if (e.getDamager() instanceof Player) {
             final Player player = (Player) e.getDamager();
             final Client client = getInstance().getClientUtilities().getOnlineClient(player.getUniqueId());
             if (client == null) {
@@ -182,7 +180,11 @@ public class WorldListener extends MainListener {
             }
             final EntityDamageEvent cause = player.getLastDamageCause();
             if (cause != null) {
-                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + UtilFormat.cleanString(cause.getCause().name()) + ChatColor.GRAY + ".");
+                String killerName = UtilFormat.cleanString(cause.getCause().name());
+                if (cause.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
+                    killerName = cause.getEntity().getCustomName();
+                }
+                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + killerName + ChatColor.GRAY + ".");
                 return;
             }
             UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " has died.");
