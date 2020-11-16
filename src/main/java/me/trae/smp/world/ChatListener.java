@@ -25,7 +25,7 @@ public class ChatListener extends MainListener {
             return;
         }
         if (!(player.isOp()) && client.isMuted()) {
-            UtilMessage.message(player, "Chat", "You are currently muted!");
+            UtilMessage.message(player, "Punish", "You are currently muted!");
             return;
         }
         final String message = e.getMessage();

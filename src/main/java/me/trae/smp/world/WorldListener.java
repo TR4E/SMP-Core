@@ -182,7 +182,7 @@ public class WorldListener extends MainListener {
             if (cause != null) {
                 String killerName = UtilFormat.cleanString(cause.getCause().name());
                 if (cause.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
-                    killerName = cause.getEntity().getCustomName();
+                    killerName = cause.getEntity().getName();
                 }
                 UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + killerName + ChatColor.GRAY + ".");
                 return;
