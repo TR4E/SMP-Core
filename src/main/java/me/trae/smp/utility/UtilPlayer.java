@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UtilPlayer {
@@ -18,7 +17,10 @@ public class UtilPlayer {
     }
 
     public static String getIP(final Player player) {
-        return Objects.requireNonNull(player.getAddress()).getAddress().getHostAddress();
+        if (player.getAddress() != null) {
+            return player.getAddress().getAddress().getHostAddress();
+        }
+        return "";
     }
 
     public static Player searchPlayer(final Player player, final String name, final boolean inform) {

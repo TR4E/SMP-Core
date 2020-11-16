@@ -23,11 +23,17 @@ public class ConfigManager {
                 config.getConfig().set("Booleans.Game.Always-Night", false);
                 config.getConfig().set("Booleans.Game.Weather", false);
                 config.getConfig().set("Booleans.Game.PvP", true);
+                config.getConfig().set("Strings.Server.MOTD", "&6A Minecraft Server.");
             } else if (type.equals(ConfigType.MAIN_DATA)) {
                 config.getConfig().set("Last-Server-Start", 0);
                 config.getConfig().set("Last-Server-Stop", 0);
             }
+            config.getConfig().options().copyDefaults(true);
+            config.createFile();
         }
+        config.loadFile();
+        config.saveFile();
+        configs.put(type, config);
     }
 
     public final Config getConfig(final ConfigType type) {

@@ -39,6 +39,14 @@ public class Client {
         this.name = name;
     }
 
+    public final String getDisplayName() {
+        final Player player = Bukkit.getPlayer(getUUID());
+        if (player != null) {
+            return ((getRank() != Rank.PLAYER ? getRank().getTag(true) + " " : "") + ChatColor.YELLOW + player.getName());
+        }
+        return null;
+    }
+
     public final String getOldName() {
         return oldName;
     }
@@ -64,7 +72,7 @@ public class Client {
         if (player != null && player.isOp()) {
             return true;
         }
-        if (!(getRank().ordinal() >= rank.ordinal())) {
+        if (!(getRank().getId() >= rank.getId())) {
             if (inform) {
                 if (player != null) {
                     UtilMessage.message(player, "Permissions", "This requires the Permission Rank [" + rank.getTag(false) + ChatColor.GRAY + "].");
@@ -111,7 +119,7 @@ public class Client {
         if (getPlaytime() > 0) {
             return UtilTime.getTime(getPlaytime() + ((Bukkit.getPlayer(getUUID()) != null ? System.currentTimeMillis() : getLastOnline()) - getLastJoined()), UtilTime.TimeUnit.BEST, 1);
         }
-        return "Never Played";
+        return UtilTime.getTime(System.currentTimeMillis() - getLastJoined(), UtilTime.TimeUnit.BEST, 1);
     }
 
     public final boolean isNewClient() {

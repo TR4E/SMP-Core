@@ -12,9 +12,11 @@ import me.trae.smp.utility.UtilPlayer;
 import me.trae.smp.utility.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClientCommand extends Command {
 
@@ -34,6 +36,8 @@ public class ClientCommand extends Command {
             promoteCommand(player, args);
         } else if (args[0].equalsIgnoreCase("demote")) {
             demoteCommand(player, args);
+        } else if (args[0].equalsIgnoreCase("list")) {
+            listCommand(player, args);
         } else {
             help(player);
         }
@@ -73,7 +77,9 @@ public class ClientCommand extends Command {
             UtilMessage.message(player, ChatColor.DARK_GREEN + "IP Address: " + ChatColor.WHITE + UtilPlayer.getIP(targetP));
             ips.remove(UtilPlayer.getIP(targetP));
         }
-        UtilMessage.message(player, ChatColor.DARK_GREEN + "IP Aliases: " + ChatColor.WHITE + ips);
+        if (ips.size() > 0) {
+            UtilMessage.message(player, ChatColor.DARK_GREEN + "IP Aliases: " + ChatColor.WHITE + ips);
+        }
         UtilMessage.message(player, ChatColor.DARK_GREEN + "Rank: " + ChatColor.WHITE + UtilFormat.cleanString(target.getRank().name()));
         UtilMessage.message(player, ChatColor.DARK_GREEN + "First Joined: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getFirstJoined(), UtilTime.TimeUnit.BEST, 1));
         if (targetP != null) {
@@ -101,9 +107,17 @@ public class ClientCommand extends Command {
         if (target == null) {
             return;
         }
-        target.setRank(Rank.getRank(target.getRank().ordinal() + 1));
+        if (target.getRank().equals(Rank.OWNER)) {
+            UtilMessage.message(player, "Client", "You cannot promote " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " any further.");
+            return;
+        }
+        target.setRank(Rank.getRank(target.getRank().getId() + 1));
         getInstance().getClientRepository().updateRank(target);
         Bukkit.getServer().getPluginManager().callEvent(new ClientPromoteEvent(getInstance(), target.getUUID(), target.getRank()));
+        final Player targetP = Bukkit.getPlayer(target.getUUID());
+        if (targetP != null) {
+            targetP.playSound(targetP.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F);
+        }
         UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " promoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".");
     }
 
@@ -123,9 +137,31 @@ public class ClientCommand extends Command {
         if (target == null) {
             return;
         }
+        if (target.getRank().equals(Rank.PLAYER)) {
+            UtilMessage.message(player, "Client", "You cannot demote " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " any further.");
+            return;
+        }
         Bukkit.getServer().getPluginManager().callEvent(new ClientDemoteEvent(getInstance(), target.getUUID(), target.getRank()));
-        target.setRank(Rank.getRank(target.getRank().ordinal() - 1));
+        target.setRank(Rank.getRank(target.getRank().getId() - 1));
         getInstance().getClientRepository().updateRank(target);
+        final Player targetP = Bukkit.getPlayer(target.getUUID());
+        if (targetP != null) {
+            targetP.playSound(targetP.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 2.0F);
+        }
         UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " demoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".");
+    }
+
+    private void listCommand(final Player player, final String[] args) {
+        final Client client = getInstance().getClientUtilities().getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return;
+        }
+        if (!(client.hasRank(Rank.OWNER, true))) {
+            return;
+        }
+        if (args.length == 1) {
+            UtilMessage.message(player, "Clients", "Showing a List of " + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().size() + ChatColor.GRAY + " Clients:");
+            UtilMessage.message(player, "Clients", "[" + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().values().stream().sorted((o1, o2) -> getInstance().getClientUtilities().getOnlineClient(o2.getUUID()).getRank().compareTo(getInstance().getClientUtilities().getOnlineClient(o1.getUUID()).getRank())).map(c -> c.getRank().getColor() + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
+        }
     }
 }

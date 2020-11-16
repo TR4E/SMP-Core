@@ -1,9 +1,12 @@
 package me.trae.smp.gamer;
 
 import me.trae.smp.Main;
+import me.trae.smp.client.Client;
 import me.trae.smp.config.ConfigManager;
 import me.trae.smp.config.IRepository;
+import me.trae.smp.utility.UtilMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -71,6 +74,10 @@ public class GamerRepository extends IRepository {
                 gamer.setDeaths(yml.getInt(str + ".Deaths"));
                 gamer.setJoins(yml.getInt(str + ".Joins"));
                 getInstance().getGamerUtilities().addGamer(gamer);
+                final Client client = getInstance().getClientUtilities().getOnlineClient(uuid);
+                if (client != null) {
+                    UtilMessage.log("Gamer", "Loaded Gamer: " + ChatColor.YELLOW + client.getName());
+                }
             }
         }.runTaskAsynchronously(getInstance());
     }

@@ -2,8 +2,11 @@ name: SMP-Core
 author: Trae
 main: me.trae.smp.Main
 version: 1.0.0
+load: STARTUP
 commands:
   client:
   ping:
   smpreload:
   playtime:
+  list:
+    aliases: [ players, online ]

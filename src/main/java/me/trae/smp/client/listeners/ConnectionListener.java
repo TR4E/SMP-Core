@@ -7,7 +7,6 @@ import me.trae.smp.gamer.Gamer;
 import me.trae.smp.module.MainListener;
 import me.trae.smp.utility.UtilLocation;
 import me.trae.smp.utility.UtilMessage;
-import me.trae.smp.utility.UtilPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -35,7 +34,7 @@ public class ConnectionListener extends MainListener {
         if (client == null) {
             client = new Client(player.getUniqueId());
             client.setName(player.getName());
-            client.getIpAddresses().add(UtilPlayer.getIP(player));
+            client.getIpAddresses().add(e.getAddress().getHostAddress());
             client.setNewClient(true);
             getInstance().getClientRepository().saveClient(client);
             getInstance().getClientUtilities().addClient(client);
@@ -47,8 +46,8 @@ public class ConnectionListener extends MainListener {
                 client.setName(player.getName());
                 getInstance().getClientRepository().updateName(client);
             }
-            if (!(client.getIpAddresses().contains(UtilPlayer.getIP(player)))) {
-                client.getIpAddresses().add(UtilPlayer.getIP(player));
+            if (!(client.getIpAddresses().contains(e.getAddress().getHostAddress()))) {
+                client.getIpAddresses().add(e.getAddress().getHostAddress());
                 getInstance().getClientRepository().updateIP(client);
             }
         }
@@ -70,28 +69,34 @@ public class ConnectionListener extends MainListener {
             getInstance().getClientRepository().updateFirstJoined(client);
         }
         UtilMessage.broadcast(ChatColor.GREEN + (client.isNewClient() ? "New> " : "Join> ") + ChatColor.GRAY + player.getName());
-        client.setNewClient(false);
+        getInstance().getGamerRepository().loadGamer(player.getUniqueId());
         client.setLastJoined(System.currentTimeMillis());
         getInstance().getClientRepository().updateLastJoined(client);
         getInstance().getClientUtilities().addOnlineClient(client);
-        getInstance().getGamerRepository().loadGamer(player.getUniqueId());
-        final Gamer gamer = getInstance().getGamerUtilities().getGamer(player.getUniqueId());
-        if (gamer != null) {
-            gamer.setJoins(gamer.getJoins() + 1);
-            getInstance().getGamerRepository().updateJoins(gamer);
-        }
+        getInstance().getGamerUtilities().incJoins(player.getUniqueId());
         if (!(getInstance().getClientUtilities().isTrusted(player))) {
             player.setGameMode(GameMode.ADVENTURE);
         } else {
             player.setGameMode(GameMode.SURVIVAL);
         }
+        player.setPlayerListName(client.getDisplayName());
+        getInstance().getTitleManager().sendPlayer(player, (client.isNewClient() ? ChatColor.RED.toString() + ChatColor.BOLD + "Welcome" : ChatColor.RED.toString() + ChatColor.BOLD + "Welcome back"), " ", 1);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPluginAuthorJoin(final PlayerJoinEvent e) {
+    public void onPlayerJoinMonitor(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
+        final Client client = getInstance().getClientUtilities().getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return;
+        }
         if (player.getUniqueId().equals(UUID.fromString("213bae9b-bbe1-4839-a74b-a59da8743062"))) {
             UtilMessage.message(player, "Server", "This Server is currently using your plugin " + ChatColor.GREEN + "SMP-Core" + ChatColor.GRAY + ".");
+        }
+        if (!(client.isNewClient())) {
+            UtilMessage.message(player, "Playtime", "You have played for " + ChatColor.GREEN + client.getPlaytimeString() + ChatColor.GRAY + ".");
+        } else {
+            client.setNewClient(false);
         }
     }
 
@@ -103,7 +108,6 @@ public class ConnectionListener extends MainListener {
         if (client == null) {
             return;
         }
-        getInstance().getClientUtilities().removeOnlineClient(client);
         if (UtilLocation.isBadLocation(player.getLocation())) {
             player.teleport(UtilLocation.toCenter(player.getWorld().getSpawnLocation(), UtilLocation.DirectionType.NORTH));
         }
@@ -115,6 +119,7 @@ public class ConnectionListener extends MainListener {
         if (gamer != null) {
             getInstance().getGamerUtilities().removeGamer(gamer);
         }
+        getInstance().getClientUtilities().removeOnlineClient(client);
         UtilMessage.broadcast(ChatColor.RED + "Quit> " + ChatColor.GRAY + player.getName());
     }
 }

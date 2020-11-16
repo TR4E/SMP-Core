@@ -5,9 +5,11 @@ import me.trae.smp.events.ServerStartEvent;
 import me.trae.smp.events.ServerStopEvent;
 import me.trae.smp.module.MainListener;
 import me.trae.smp.utility.UtilMessage;
+import me.trae.smp.utility.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ServerListener extends MainListener {
@@ -17,12 +19,21 @@ public class ServerListener extends MainListener {
     }
 
     @EventHandler
+    public void onServerListPing(final ServerListPingEvent e) {
+        e.setMaxPlayers(100);
+        if (getInstance().getRepository().getServerMOTD().length() > 0) {
+            e.setMotd(ChatColor.translateAlternateColorCodes('&', getInstance().getRepository().getServerMOTD()));
+        }
+    }
+
+    @EventHandler
     public void onServerStart(final ServerStartEvent e) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 getInstance().setStarted(true);
                 getInstance().getRepository().setLastServerStart();
+                UtilMessage.log("Server", "The Server was last online " + ChatColor.GREEN + UtilTime.getTime(System.currentTimeMillis() - getInstance().getRepository().getLastServerStop(), UtilTime.TimeUnit.BEST, 1) + ChatColor.GRAY + " ago.");
                 UtilMessage.log("SMP-Core", ChatColor.GREEN + "Plugin Enabled!");
             }
         }.runTaskLater(getInstance(), 10L);
@@ -36,6 +47,11 @@ public class ServerListener extends MainListener {
         }
         getInstance().getRepository().setLastServerStop();
         UtilMessage.log("SMP-Core", ChatColor.RED + "Plugin Disabled!");
-        Bukkit.shutdown();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.shutdown();
+            }
+        }.runTaskLater(getInstance(), 10L);
     }
 }
