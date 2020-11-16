@@ -36,14 +36,17 @@ public class DyeCommand extends Command {
         if (!(isCorrectItem(player, item.getType()))) {
             return;
         }
+        String dyeName = "Default";
         if (args[0].equalsIgnoreCase("Reset") || args[0].equalsIgnoreCase("Default")) {
             addColorToItem(player, item, null);
         } else {
             final DyeColor dye = searchDye(player, args[0], true);
             if (dye != null) {
                 addColorToItem(player, item, dye);
+                dyeName = UtilFormat.cleanString(dye.name());
             }
         }
+        UtilMessage.message(player, "Dye", "You successfully dyed " + ChatColor.GREEN + UtilFormat.cleanString(item.getType().name()) + ChatColor.GRAY + " to " + ChatColor.YELLOW + dyeName + ChatColor.GRAY + ".");
     }
 
     @Override
