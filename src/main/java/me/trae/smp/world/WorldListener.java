@@ -10,8 +10,9 @@ import me.trae.smp.utility.UtilFormat;
 import me.trae.smp.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
@@ -169,27 +170,67 @@ public class WorldListener extends MainListener {
     public void onPlayerDeath(final PlayerDeathEvent e) {
         e.setDeathMessage(null);
         final Player player = e.getEntity().getPlayer();
-        if (player != null) {
-            final Player killer = e.getEntity().getKiller();
-            if (killer != null) {
-                getInstance().getGamerUtilities().incDeaths(player.getUniqueId());
-                getInstance().getGamerUtilities().incKills(killer.getUniqueId());
-                final String item = UtilFormat.cleanString(killer.getInventory().getItemInMainHand().getType().name());
-                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + killer.getName() + ChatColor.GRAY + " with " + ChatColor.GREEN + item + ChatColor.GRAY + ".");
+        if (player == null) {
+            return;
+        }
+        final EntityDamageEvent cause = player.getLastDamageCause();
+        if (player.getLastDamageCause() == null || cause == null) {
+            return;
+        }
+        if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.SUICIDE || player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.CUSTOM) {
+            return;
+        }
+        if (player.getLastDamageCause() == null) {
+            return;
+        }
+        if (player.getKiller() != null) {
+            if (player == player.getKiller()) {
+                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " has died.");
                 return;
             }
-            final EntityDamageEvent cause = player.getLastDamageCause();
-            if (cause != null) {
-                String killerName = UtilFormat.cleanString(cause.getCause().name());
-                if (cause.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
-                    killerName = cause.getEntity().getName();
+        }
+        String name = "";
+        if (player.getLastDamageCause().getEntityType() != EntityType.PLAYER) {
+            if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+                final EntityDamageByEntityEvent entity = (EntityDamageByEntityEvent) player.getLastDamageCause();
+                name = ChatColor.GRAY + "a " + ChatColor.YELLOW + UtilFormat.cleanString(entity.getDamager().getName());
+            } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
+                final EntityDamageByEntityEvent entity = (EntityDamageByEntityEvent) player.getLastDamageCause();
+                if (entity.getDamager() instanceof Arrow) {
+                    final Arrow a = (Arrow) entity.getDamager();
+                    if (a.getShooter() instanceof LivingEntity) {
+                        name = ChatColor.GRAY + (a.getShooter() instanceof Player ? "" : "a ") + ChatColor.YELLOW + ((LivingEntity) a.getShooter()).getName();
+                    }
                 }
-                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + killerName + ChatColor.GRAY + ".");
-                return;
+            } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
+                final EntityDamageByEntityEvent entity = (EntityDamageByEntityEvent) player.getLastDamageCause();
+                name = ChatColor.GRAY + ((entity.getDamager() instanceof Creeper || entity.getDamager() instanceof Wither) ? "a " : "") + ChatColor.YELLOW + UtilFormat.cleanString(entity.getDamager().getName());
+            } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
+                name = ChatColor.YELLOW + "Fire";
+            } else {
+                name = ChatColor.YELLOW + UtilFormat.cleanString(player.getLastDamageCause().getCause().name());
             }
-            UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " has died.");
+            UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + name + ChatColor.GRAY + ".");
+            return;
+        }
+        if (player.getKiller() != null) {
+            final Player killer = player.getKiller();
+            if (killer != player) {
+                if (getInstance().getGamerUtilities().getGamer(player.getUniqueId()) != null) {
+                    if (!(player.getGameMode() == GameMode.CREATIVE)) {
+                        getInstance().getGamerUtilities().incDeaths(player.getUniqueId());
+                    }
+                }
+                if (getInstance().getGamerUtilities().getGamer(killer.getUniqueId()) != null) {
+                    if (!(killer.getGameMode() == GameMode.CREATIVE)) {
+                        getInstance().getGamerUtilities().incKills(killer.getUniqueId());
+                    }
+                }
+                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + killer.getName() + ChatColor.GRAY + " with " + ChatColor.GREEN + UtilFormat.cleanString(killer.getInventory().getItemInMainHand().getType().name()) + ChatColor.GRAY + ".");
+            }
         }
     }
+
 
     @EventHandler
     public void onWeatherChange(final WeatherChangeEvent e) {

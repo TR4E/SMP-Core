@@ -20,10 +20,13 @@ import java.util.Map;
 
 public class CommandManager extends MainListener {
 
+    private final String[] whitelistedCommands;
+
     private final Map<String, Command> commands = new HashMap<>();
 
     public CommandManager(final Main instance) {
         super(instance, true);
+        this.whitelistedCommands = new String[]{"home", "h", "sethome", "sh", "delhome", "dh", "back", "b"};
     }
 
     public Map<String, Command> getCommands() {
@@ -88,7 +91,7 @@ public class CommandManager extends MainListener {
                 command.execute(player, args);
             }
         } else {
-            if (client.hasRank(Rank.OWNER, false)) {
+            if (client.hasRank(Rank.OWNER, false) || Arrays.asList(whitelistedCommands).contains(cmd.toLowerCase())) {
                 return;
             }
             e.setCancelled(true);

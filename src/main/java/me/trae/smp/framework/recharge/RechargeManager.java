@@ -36,11 +36,15 @@ public final class RechargeManager extends MainListener {
         }
         if (cooldown.get(player.getUniqueId()).stream().filter(r -> r.getName().equals(name)).anyMatch(r -> !(r.hasExpired() && r.isExpired()))) {
             if (inform) {
-                UtilMessage.message(player, "Recharge", "You cannot use " + ChatColor.GREEN + name + ChatColor.GRAY + " for " + ChatColor.GREEN + UtilTime.getTime(cooldown.get(player.getUniqueId()).stream().filter(r -> r.getName().equals(name)).findFirst().get().getRemaining(), UtilTime.TimeUnit.BEST, 1) + ChatColor.GRAY + ".");
+                UtilMessage.message(player, "Recharge", "You cannot use " + ChatColor.GREEN + name + ChatColor.GRAY + " for " + ChatColor.GREEN + getCooldownLeft(player, name) + ChatColor.GRAY + ".");
             }
             return false;
         }
         return cooldown.get(player.getUniqueId()).stream().filter(r -> r.getName().equals(name)).anyMatch(Recharge::hasExpired);
+    }
+
+    public final String getCooldownLeft(final Player player, final String name) {
+        return UtilTime.getTime(cooldown.get(player.getUniqueId()).stream().filter(r -> r.getName().equals(name)).findFirst().get().getRemaining(), UtilTime.TimeUnit.BEST, 1);
     }
 
     public void remove(final Player player, final String name, final boolean inform) {
