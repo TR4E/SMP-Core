@@ -103,7 +103,7 @@ public class DyeCommand extends Command {
                     item.setItemMeta(meta);
                 }
             }
-        } else if (item.getType().name().contains("STAINED_GLASS")) {
+        } else if (item.getType().name().contains("STAINED_GLASS") || item.getType().equals(Material.GLASS)) {
             if (dye == null) {
                 player.getInventory().setItemInMainHand(new ItemStack(Material.GLASS, item.getAmount()));
             } else {
