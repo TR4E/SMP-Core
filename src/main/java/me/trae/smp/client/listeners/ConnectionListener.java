@@ -73,7 +73,6 @@ public class ConnectionListener extends MainListener {
         client.setLastJoined(System.currentTimeMillis());
         getInstance().getClientRepository().updateLastJoined(client);
         getInstance().getClientUtilities().addOnlineClient(client);
-        getInstance().getGamerUtilities().incJoins(player.getUniqueId());
         if (!(getInstance().getClientUtilities().isTrusted(player))) {
             player.setGameMode(GameMode.ADVENTURE);
         } else {
@@ -90,6 +89,7 @@ public class ConnectionListener extends MainListener {
         if (client == null) {
             return;
         }
+        getInstance().getGamerUtilities().incJoins(player.getUniqueId());
         if (player.getUniqueId().equals(UUID.fromString("213bae9b-bbe1-4839-a74b-a59da8743062"))) {
             UtilMessage.message(player, "Server", "This Server is currently using your plugin " + ChatColor.GREEN + "SMP-Core" + ChatColor.GRAY + ".");
         }
