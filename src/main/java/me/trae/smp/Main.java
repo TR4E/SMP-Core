@@ -4,6 +4,7 @@ import me.trae.smp.client.ClientManager;
 import me.trae.smp.client.ClientRepository;
 import me.trae.smp.client.ClientUtilities;
 import me.trae.smp.client.commands.*;
+import me.trae.smp.client.commands.staff.AltsCommand;
 import me.trae.smp.client.commands.staff.ClientCommand;
 import me.trae.smp.client.commands.staff.MuteCommand;
 import me.trae.smp.client.commands.teleport.BackCommand;
@@ -20,6 +21,7 @@ import me.trae.smp.events.ServerStopEvent;
 import me.trae.smp.framework.TitleManager;
 import me.trae.smp.framework.recharge.RechargeManager;
 import me.trae.smp.framework.update.Updater;
+import me.trae.smp.gamer.GamerManager;
 import me.trae.smp.gamer.GamerRepository;
 import me.trae.smp.gamer.GamerUtilities;
 import me.trae.smp.world.ChatListener;
@@ -75,14 +77,16 @@ public class Main extends JavaPlugin {
     }
 
     private void registerEvents() {
-        new ClientManager(this);
         new ConnectionListener(this);
+        new ClientManager(this);
+        new GamerManager(this);
         new ChatListener(this);
         new ServerListener(this);
         new WorldListener(this);
     }
 
     private void registerCommands() {
+        getCommandManager().addCommand(new AltsCommand(this));
         getCommandManager().addCommand(new ClientCommand(this));
         getCommandManager().addCommand(new MuteCommand(this));
         getCommandManager().addCommand(new BackCommand(this));

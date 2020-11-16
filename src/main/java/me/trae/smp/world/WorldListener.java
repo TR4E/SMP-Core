@@ -4,9 +4,9 @@ import me.trae.smp.Main;
 import me.trae.smp.client.Client;
 import me.trae.smp.framework.update.UpdateEvent;
 import me.trae.smp.framework.update.Updater;
-import me.trae.smp.gamer.Gamer;
 import me.trae.smp.module.MainListener;
 import me.trae.smp.utility.UtilFormat;
+import me.trae.smp.utility.UtilItem;
 import me.trae.smp.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -64,12 +64,6 @@ public class WorldListener extends MainListener {
             UtilMessage.message(player, "Game", "You are not allowed to break blocks.");
             return;
         }
-        final Gamer gamer = getInstance().getGamerUtilities().getGamer(player.getUniqueId());
-        if (gamer == null) {
-            return;
-        }
-        gamer.setBlocksBroken(gamer.getBlocksBroken() + 1);
-        getInstance().getGamerRepository().updateBlocksBroken(gamer);
     }
 
 
@@ -85,12 +79,6 @@ public class WorldListener extends MainListener {
             UtilMessage.message(player, "Game", "You are not allowed to place blocks.");
             return;
         }
-        final Gamer gamer = getInstance().getGamerUtilities().getGamer(player.getUniqueId());
-        if (gamer == null) {
-            return;
-        }
-        gamer.setBlocksPlaced(gamer.getBlocksPlaced() + 1);
-        getInstance().getGamerRepository().updateBlocksPlaced(gamer);
     }
 
     @EventHandler
@@ -150,7 +138,9 @@ public class WorldListener extends MainListener {
             }
             if (!(getInstance().getClientUtilities().isTrusted(player))) {
                 e.setCancelled(true);
+                return;
             }
+            e.getItem().setItemStack(UtilItem.updateNames(e.getItem().getItemStack()));
         }
     }
 

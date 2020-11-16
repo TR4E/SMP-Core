@@ -81,9 +81,9 @@ public class ClientCommand extends Command {
             UtilMessage.message(player, ChatColor.DARK_GREEN + "IP Aliases: " + ChatColor.WHITE + ips);
         }
         UtilMessage.message(player, ChatColor.DARK_GREEN + "Rank: " + ChatColor.WHITE + UtilFormat.cleanString(target.getRank().name()));
-        UtilMessage.message(player, ChatColor.DARK_GREEN + "First Joined: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getFirstJoined(), UtilTime.TimeUnit.BEST, 1));
+        UtilMessage.message(player, ChatColor.DARK_GREEN + "First Joined: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getFirstJoined(), UtilTime.TimeUnit.BEST, 1) + " ago");
         if (targetP != null) {
-            UtilMessage.message(player, ChatColor.DARK_GREEN + "Last Joined: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getLastJoined(), UtilTime.TimeUnit.BEST, 1));
+            UtilMessage.message(player, ChatColor.DARK_GREEN + "Last Joined: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getLastJoined(), UtilTime.TimeUnit.BEST, 1) + " ago");
         }
         if (targetP == null) {
             UtilMessage.message(player, ChatColor.DARK_GREEN + "Last Online: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getLastOnline(), UtilTime.TimeUnit.BEST, 1));

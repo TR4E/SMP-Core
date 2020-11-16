@@ -37,7 +37,7 @@ public class PlaytimeCommand extends Command {
     public void help(final Player player) {
         final Client client = getInstance().getClientUtilities().getOnlineClient(player.getUniqueId());
         if (client != null) {
-            UtilMessage.message(player, "Playtime", "You have played for " + ChatColor.GREEN + client.getPlaytimeString());
+            UtilMessage.message(player, "Playtime", "You have played for " + ChatColor.GREEN + client.getPlaytimeString() + ChatColor.GRAY + ".");
         }
     }
 }

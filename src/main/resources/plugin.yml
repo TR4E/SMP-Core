@@ -24,3 +24,5 @@ commands:
     aliases: [ color, colour ]
   statistics:
     aliases: [ stats, info ]
+  alts:
+    aliases: [ checkalts, searchalts ]

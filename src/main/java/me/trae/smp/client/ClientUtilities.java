@@ -6,10 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClientUtilities {
@@ -95,5 +92,23 @@ public class ClientUtilities {
         }
         final Client client = getOnlineClient(player.getUniqueId());
         return !(client.getRank().equals(Rank.PLAYER));
+    }
+
+    public final Set<Client> getAltsOfClient(final UUID uuid) {
+        final Set<Client> alts = new HashSet<>();
+        final Client client = (Bukkit.getPlayer(uuid) != null ? getOnlineClient(uuid) : getClient(uuid));
+        if (client != null) {
+            for (final Client alt : getClients().values()) {
+                if (client.equals(alt)) {
+                    continue;
+                }
+                for (final String ipAlt : alt.getIpAddresses()) {
+                    if (client.getIpAddresses().contains(ipAlt)) {
+                        alts.add(alt);
+                    }
+                }
+            }
+        }
+        return alts;
     }
 }
