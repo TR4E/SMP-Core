@@ -3,11 +3,13 @@ package me.trae.smp;
 import me.trae.smp.client.ClientManager;
 import me.trae.smp.client.ClientRepository;
 import me.trae.smp.client.ClientUtilities;
-import me.trae.smp.client.commands.ListCommand;
-import me.trae.smp.client.commands.PingCommand;
-import me.trae.smp.client.commands.PlaytimeCommand;
+import me.trae.smp.client.commands.*;
 import me.trae.smp.client.commands.staff.ClientCommand;
 import me.trae.smp.client.commands.staff.MuteCommand;
+import me.trae.smp.client.commands.teleport.BackCommand;
+import me.trae.smp.client.commands.teleport.DelhomeCommand;
+import me.trae.smp.client.commands.teleport.HomeCommand;
+import me.trae.smp.client.commands.teleport.SethomeCommand;
 import me.trae.smp.client.listeners.ConnectionListener;
 import me.trae.smp.command.CommandManager;
 import me.trae.smp.config.ConfigManager;
@@ -83,10 +85,17 @@ public class Main extends JavaPlugin {
     private void registerCommands() {
         getCommandManager().addCommand(new ClientCommand(this));
         getCommandManager().addCommand(new MuteCommand(this));
+        getCommandManager().addCommand(new BackCommand(this));
+        getCommandManager().addCommand(new SethomeCommand(this));
+        getCommandManager().addCommand(new DelhomeCommand(this));
+        getCommandManager().addCommand(new HomeCommand(this));
+        getCommandManager().addCommand(new DyeCommand(this));
+        getCommandManager().addCommand(new HelpCommand(this));
         getCommandManager().addCommand(new ListCommand(this));
         getCommandManager().addCommand(new PingCommand(this));
         getCommandManager().addCommand(new ReloadCommand(this));
         getCommandManager().addCommand(new PlaytimeCommand(this));
+        getCommandManager().addCommand(new StatsCommand(this));
     }
 
     public final boolean hasStarted() {

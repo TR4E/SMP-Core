@@ -4,6 +4,7 @@ import me.trae.smp.utility.UtilMessage;
 import me.trae.smp.utility.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Client {
     private Rank rank;
     private long firstJoined, lastJoined, lastOnline, playtime;
     private boolean newClient, muted;
+    private Location homeLocation, backLocation;
 
     public Client(final UUID uuid) {
         this.uuid = uuid;
@@ -136,5 +138,21 @@ public class Client {
 
     public void setMuted(final boolean muted) {
         this.muted = muted;
+    }
+
+    public final Location getHomeLocation() {
+        return homeLocation;
+    }
+
+    public void setHomeLocation(final Location homeLocation) {
+        this.homeLocation = homeLocation;
+    }
+
+    public final Location getBackLocation() {
+        return backLocation;
+    }
+
+    public void setBackLocation(final Location backLocation) {
+        this.backLocation = backLocation;
     }
 }

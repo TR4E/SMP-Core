@@ -3,6 +3,7 @@ author: Trae
 main: me.trae.smp.Main
 version: 1.0.0
 load: STARTUP
+api-version: 1.13
 commands:
   client:
   ping:
@@ -10,3 +11,16 @@ commands:
   playtime:
   list:
     aliases: [ players, online ]
+  sethome:
+    aliases: [ sh ]
+  delhome:
+    aliases: [ dh ]
+  home:
+    aliases: [ h ]
+  back:
+    aliases: [ b ]
+  help:
+  dye:
+    aliases: [ color, colour ]
+  statistics:
+    aliases: [ stats, info ]

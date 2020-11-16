@@ -3,6 +3,7 @@ package me.trae.smp.client;
 import me.trae.smp.Main;
 import me.trae.smp.config.ConfigManager;
 import me.trae.smp.config.IRepository;
+import me.trae.smp.utility.UtilLocation;
 import me.trae.smp.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ClientRepository extends IRepository {
@@ -29,6 +31,7 @@ public class ClientRepository extends IRepository {
         config.getConfig().set(client.getUUID().toString() + ".Last-Online", client.getLastOnline());
         config.getConfig().set(client.getUUID().toString() + ".Playtime", client.getPlaytime());
         config.getConfig().set(client.getUUID().toString() + ".Muted", (client.isMuted() ? 1 : 0));
+        config.getConfig().set(client.getUUID().toString() + ".Home", (client.getHomeLocation() != null ? UtilLocation.locationToFile(client.getHomeLocation()) : "None"));
         config.saveFile();
     }
 
@@ -86,6 +89,12 @@ public class ClientRepository extends IRepository {
         config.saveFile();
     }
 
+    public void updateHome(final Client client) {
+        config.loadFile();
+        config.getConfig().set(client.getUUID().toString() + ".Home", (client.getHomeLocation() != null ? UtilLocation.locationToFile(client.getHomeLocation()) : "None"));
+        config.saveFile();
+    }
+
     @Override
     public synchronized void load() {
         this.config.loadFile();
@@ -105,6 +114,7 @@ public class ClientRepository extends IRepository {
                     client.setLastOnline(yml.getLong(str + ".Last-Online"));
                     client.setPlaytime(yml.getLong(str + ".Playtime"));
                     client.setMuted(yml.getInt(str + ".Muted") == 1);
+                    client.setHomeLocation((!(Objects.equals(yml.getString(str + ".Home"), "None")) ? UtilLocation.fileToLocation(yml.getString(str + ".Home")) : null));
                     getInstance().getClientUtilities().addClient(client);
                 }
                 UtilMessage.log("Database", "Loaded " + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().size() + ChatColor.GRAY + " Clients.");
@@ -117,11 +127,16 @@ public class ClientRepository extends IRepository {
         getInstance().getClientUtilities().getClients().clear();
         getInstance().getClientUtilities().getOnlineClients().clear();
         load();
-        for (final Player player : Bukkit.getOnlinePlayers()) {
-            final Client client = getInstance().getClientUtilities().getClient(player.getUniqueId());
-            if (client != null) {
-                getInstance().getClientUtilities().addOnlineClient(client);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (final Player player : Bukkit.getOnlinePlayers()) {
+                    final Client client = getInstance().getClientUtilities().getClient(player.getUniqueId());
+                    if (client != null) {
+                        getInstance().getClientUtilities().addOnlineClient(client);
+                    }
+                }
             }
-        }
+        }.runTaskLaterAsynchronously(getInstance(), 10L);
     }
 }
