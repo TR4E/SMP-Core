@@ -19,7 +19,7 @@ public class ListCommand extends Command {
     @Override
     public void execute(final Player player, final String[] args) {
         UtilMessage.message(player, "List", "There is currently " + ChatColor.YELLOW + Bukkit.getOnlinePlayers().stream().filter(player::canSee).count() + ChatColor.GRAY + " players online.");
-        UtilMessage.message(player, "List", "Players: [" + getInstance().getClientUtilities().getOnlineClients().values().stream().sorted((o1, o2) -> getInstance().getClientUtilities().getOnlineClient(o2.getUUID()).getRank().compareTo(getInstance().getClientUtilities().getOnlineClient(o1.getUUID()).getRank())).map(c -> c.getRank().getColor() + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
+        UtilMessage.message(player, "List", "Players: [" + getInstance().getClientUtilities().getOnlineClients().values().stream().map(c -> c.getRank().getColor() + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
     }
 
     @Override

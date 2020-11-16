@@ -161,7 +161,7 @@ public class ClientCommand extends Command {
         }
         if (args.length == 1) {
             UtilMessage.message(player, "Clients", "Showing a List of " + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().size() + ChatColor.GRAY + " Clients:");
-            UtilMessage.message(player, "Clients", "[" + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().values().stream().sorted((o1, o2) -> getInstance().getClientUtilities().getOnlineClient(o2.getUUID()).getRank().compareTo(getInstance().getClientUtilities().getOnlineClient(o1.getUUID()).getRank())).map(c -> c.getRank().getColor() + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
+            UtilMessage.message(player, "Clients", "[" + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().values().stream().map(c -> c.getRank().getColor() + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
         }
     }
 }
