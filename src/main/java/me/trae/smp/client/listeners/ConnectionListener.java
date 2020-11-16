@@ -80,7 +80,7 @@ public class ConnectionListener extends MainListener {
             player.setGameMode(GameMode.SURVIVAL);
         }
         player.setPlayerListName(client.getDisplayName());
-        getInstance().getTitleManager().sendPlayer(player, (client.isNewClient() ? ChatColor.RED.toString() + ChatColor.BOLD + "Welcome" : ChatColor.RED.toString() + ChatColor.BOLD + "Welcome back"), " ", 1);
+        getInstance().getTitleManager().sendPlayer(player, (client.isNewClient() ? ChatColor.RED.toString() + ChatColor.BOLD + "Welcome" : ChatColor.RED.toString() + ChatColor.BOLD + "Welcome back"), " ", 2);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
