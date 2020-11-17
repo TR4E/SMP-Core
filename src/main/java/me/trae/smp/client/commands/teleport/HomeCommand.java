@@ -29,7 +29,7 @@ public class HomeCommand extends Command {
             }
             player.teleport(UtilLocation.toCenter(client.getHomeLocation(), UtilLocation.DirectionType.SOUTH));
             player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
-            getInstance().getTitleManager().sendPlayer(player, ChatColor.YELLOW.toString() + ChatColor.BOLD + "Home", ChatColor.WHITE + "You have teleported to your Home.", 2);
+            getInstance().getTitleManager().sendPlayer(player, ChatColor.YELLOW.toString() + ChatColor.BOLD + "Teleport", ChatColor.WHITE + "You have teleported to your Home.", 2);
             UtilMessage.message(player, "Home", "You have teleported to your Home.");
             return;
         }

@@ -68,7 +68,7 @@ public class ConnectionListener extends MainListener {
             client.setFirstJoined(System.currentTimeMillis());
             getInstance().getClientRepository().updateFirstJoined(client);
         }
-        UtilMessage.broadcast(ChatColor.GREEN + (client.isNewClient() ? "New> " : "Join> ") + ChatColor.GRAY + player.getName());
+        UtilMessage.broadcast(ChatColor.GREEN + (client.isNewClient() ? "New> " : "Join> ") + ChatColor.GRAY + player.getName(), null);
         getInstance().getGamerRepository().loadGamer(player.getUniqueId());
         client.setLastJoined(System.currentTimeMillis());
         getInstance().getClientRepository().updateLastJoined(client);
@@ -107,6 +107,12 @@ public class ConnectionListener extends MainListener {
         if (client == null) {
             return;
         }
+        for (final Client c : getInstance().getClientUtilities().getOnlineClients().values()) {
+            if (c.getTPA() != null && c.getTPA().equals(player.getUniqueId())) {
+                c.setTPA(null);
+            }
+        }
+        client.setTPA(null);
         if (UtilLocation.isBadLocation(player.getLocation())) {
             player.teleport(UtilLocation.toCenter(player.getWorld().getSpawnLocation(), UtilLocation.DirectionType.NORTH));
         }
@@ -119,6 +125,6 @@ public class ConnectionListener extends MainListener {
             getInstance().getGamerUtilities().removeGamer(gamer);
         }
         getInstance().getClientUtilities().removeOnlineClient(client);
-        UtilMessage.broadcast(ChatColor.RED + "Quit> " + ChatColor.GRAY + player.getName());
+        UtilMessage.broadcast(ChatColor.RED + "Quit> " + ChatColor.GRAY + player.getName(), null);
     }
 }

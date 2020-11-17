@@ -10,7 +10,6 @@ import me.trae.smp.utility.UtilItem;
 import me.trae.smp.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -62,7 +61,6 @@ public class WorldListener extends MainListener {
         if (!(getInstance().getClientUtilities().isTrusted(player))) {
             e.setCancelled(true);
             UtilMessage.message(player, "Game", "You are not allowed to break blocks.");
-            return;
         }
     }
 
@@ -77,7 +75,6 @@ public class WorldListener extends MainListener {
         if (!(getInstance().getClientUtilities().isTrusted(player))) {
             e.setCancelled(true);
             UtilMessage.message(player, "Game", "You are not allowed to place blocks.");
-            return;
         }
     }
 
@@ -156,7 +153,7 @@ public class WorldListener extends MainListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerDeath(final PlayerDeathEvent e) {
         e.setDeathMessage(null);
         final Player player = e.getEntity().getPlayer();
@@ -170,12 +167,9 @@ public class WorldListener extends MainListener {
         if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.SUICIDE || player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.CUSTOM) {
             return;
         }
-        if (player.getLastDamageCause() == null) {
-            return;
-        }
         if (player.getKiller() != null) {
             if (player == player.getKiller()) {
-                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " has died.");
+                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " has died.", null);
                 return;
             }
         }
@@ -200,27 +194,16 @@ public class WorldListener extends MainListener {
             } else {
                 name = ChatColor.YELLOW + UtilFormat.cleanString(player.getLastDamageCause().getCause().name());
             }
-            UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + name + ChatColor.GRAY + ".");
+            UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + name + ChatColor.GRAY + ".", null);
             return;
         }
         if (player.getKiller() != null) {
             final Player killer = player.getKiller();
             if (killer != player) {
-                if (getInstance().getGamerUtilities().getGamer(player.getUniqueId()) != null) {
-                    if (!(player.getGameMode() == GameMode.CREATIVE)) {
-                        getInstance().getGamerUtilities().incDeaths(player.getUniqueId());
-                    }
-                }
-                if (getInstance().getGamerUtilities().getGamer(killer.getUniqueId()) != null) {
-                    if (!(killer.getGameMode() == GameMode.CREATIVE)) {
-                        getInstance().getGamerUtilities().incKills(killer.getUniqueId());
-                    }
-                }
-                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + killer.getName() + ChatColor.GRAY + " with " + ChatColor.GREEN + UtilFormat.cleanString(killer.getInventory().getItemInMainHand().getType().name()) + ChatColor.GRAY + ".");
+                UtilMessage.broadcast("Death", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " was killed by " + ChatColor.YELLOW + killer.getName() + ChatColor.GRAY + " with " + ChatColor.GREEN + UtilFormat.cleanString(killer.getInventory().getItemInMainHand().getType().name()) + ChatColor.GRAY + ".", null);
             }
         }
     }
-
 
     @EventHandler
     public void onWeatherChange(final WeatherChangeEvent e) {

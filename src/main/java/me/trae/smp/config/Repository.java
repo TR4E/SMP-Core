@@ -5,7 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Repository extends IRepository {
 
-    private boolean alwaysDay, alwaysNight, weather, pvp;
+    private boolean alwaysDay, alwaysNight, weather, pvp, explosionHeal;
     private String serverMOTD;
     private long lastServerStart, lastServerStop;
 
@@ -27,6 +27,7 @@ public class Repository extends IRepository {
                         alwaysNight = config.getConfig().getBoolean("Booleans.Game.Always-Night");
                         weather = config.getConfig().getBoolean("Booleans.Game.Weather");
                         pvp = config.getConfig().getBoolean("Booleans.Game.PvP");
+                        explosionHeal = config.getConfig().getBoolean("Booleans.Game.Explosion-Heal");
                         serverMOTD = config.getConfig().getString("Strings.Server.MOTD");
                     } else if (type.equals(ConfigManager.ConfigType.MAIN_DATA)) {
                         lastServerStart = config.getConfig().getLong("Last-Server-Start");
@@ -56,6 +57,10 @@ public class Repository extends IRepository {
 
     public final boolean isPvP() {
         return pvp;
+    }
+
+    public final boolean isExplosionHeal() {
+        return explosionHeal;
     }
 
     public final String getServerMOTD() {

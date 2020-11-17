@@ -34,6 +34,6 @@ public class ChatListener extends MainListener {
         }
         final String message = e.getMessage();
         final String rank = ((client.getRank() != Rank.PLAYER) ? client.getRank().getTag(true) + " " : "");
-        UtilMessage.broadcast(rank + ChatColor.YELLOW + player.getName() + ChatColor.WHITE + ": " + message);
+        UtilMessage.broadcast(rank + ChatColor.YELLOW + player.getName() + ChatColor.WHITE + ": " + message, null);
     }
 }

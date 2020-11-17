@@ -39,7 +39,7 @@ public class MuteCommand extends Command {
             }
             target.setMuted(!(target.isMuted()));
             getInstance().getClientRepository().updateMuted(client);
-            UtilMessage.broadcast("Punish", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + (target.isMuted() ? " muted " : " un-muted ") + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + ".");
+            UtilMessage.broadcast("Punish", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + (target.isMuted() ? " muted " : " un-muted ") + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + ".", null);
         }
     }
 

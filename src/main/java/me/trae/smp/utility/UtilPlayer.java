@@ -31,7 +31,7 @@ public class UtilPlayer {
         if (list.size() == 1) {
             return list.get(0);
         } else if (inform) {
-            UtilMessage.message(player, "Player Search", ChatColor.YELLOW.toString() + list.size() + ChatColor.GRAY + " matches found [" + ChatColor.YELLOW + ((list.size() == 0) ? name : list.stream().map(HumanEntity::getName).collect(Collectors.joining(ChatColor.GRAY + ", "))) + "].");
+            UtilMessage.message(player, "Player Search", ChatColor.YELLOW.toString() + list.size() + ChatColor.GRAY + " matches found [" + ChatColor.YELLOW + ((list.size() == 0) ? name : list.stream().map(HumanEntity::getName).collect(Collectors.joining(ChatColor.GRAY + ", "))) + ChatColor.GRAY + "].");
         }
         return null;
     }

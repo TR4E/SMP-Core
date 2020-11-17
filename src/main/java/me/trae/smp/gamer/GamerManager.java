@@ -26,7 +26,7 @@ public class GamerManager extends MainListener {
         if (!(player.getGameMode().equals(GameMode.SURVIVAL))) {
             return;
         }
-        getInstance().getGamerUtilities().incDeaths(player.getUniqueId());
+        getInstance().getGamerUtilities().incBlocksBroken(player.getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

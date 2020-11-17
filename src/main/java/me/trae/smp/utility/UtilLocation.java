@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 public class UtilLocation {
 
     public static Location toCenter(final Location loc, final DirectionType directionType) {
-        return new Location(loc.getWorld(), Double.parseDouble(loc.getBlockX() + ".5"), loc.getBlockY(), Double.parseDouble(loc.getBlockZ() + ".5"), directionType.getYaw(), directionType.getPitch());
+        return new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), (directionType != null ? directionType.getYaw() : loc.getYaw()), (directionType != null ? directionType.getPitch() : loc.getPitch()));
     }
 
     public static boolean isBadLocation(final Location loc) {

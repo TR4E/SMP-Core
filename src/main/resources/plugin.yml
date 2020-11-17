@@ -26,3 +26,9 @@ commands:
     aliases: [ stats, info ]
   alts:
     aliases: [ checkalts, searchalts ]
+  observer:
+    aliases: [ obs ]
+  explosionheal:
+    aliases: [ tntheal, creeperheal ]
+  tpa:
+  tpaccept:

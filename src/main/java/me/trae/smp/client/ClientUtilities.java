@@ -70,6 +70,9 @@ public class ClientUtilities {
 
     public void messageStaff(final String prefix, final String message, final Rank minimumRank, final UUID[] ignore) {
         for (final Player player : Bukkit.getOnlinePlayers()) {
+            if (ignore != null && Arrays.asList(ignore).contains(player.getUniqueId())) {
+                continue;
+            }
             final Client client = getOnlineClient(player.getUniqueId());
             if (client != null && client.hasRank(minimumRank, false)) {
                 UtilMessage.message(player, prefix, message);
@@ -79,6 +82,9 @@ public class ClientUtilities {
 
     public void messageStaff(final String message, final Rank minimumRank, final UUID[] ignore) {
         for (final Player player : Bukkit.getOnlinePlayers()) {
+            if (ignore != null && Arrays.asList(ignore).contains(player.getUniqueId())) {
+                continue;
+            }
             final Client client = getOnlineClient(player.getUniqueId());
             if (client != null && client.hasRank(minimumRank, false)) {
                 UtilMessage.message(player, message);

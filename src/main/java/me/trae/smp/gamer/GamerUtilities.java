@@ -2,6 +2,8 @@ package me.trae.smp.gamer;
 
 import me.trae.smp.Main;
 import me.trae.smp.module.MainListener;
+import me.trae.smp.utility.UtilMessage;
+import org.bukkit.ChatColor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,6 +70,7 @@ public class GamerUtilities extends MainListener {
         if (gamer != null) {
             gamer.setJoins(gamer.getJoins() + 1);
             getInstance().getGamerRepository().updateJoins(gamer);
+            UtilMessage.log("Gamer", "Added a Join to " + ChatColor.YELLOW + uuid.toString() + ChatColor.GRAY + " [" + ChatColor.GREEN + gamer.getJoins() + ChatColor.GRAY + "].");
         }
     }
 }

@@ -3,6 +3,9 @@ package me.trae.smp.world;
 import me.trae.smp.Main;
 import me.trae.smp.events.ServerStartEvent;
 import me.trae.smp.events.ServerStopEvent;
+import me.trae.smp.framework.blockrestore.BlockRestoreData;
+import me.trae.smp.framework.update.UpdateEvent;
+import me.trae.smp.framework.update.Updater;
 import me.trae.smp.module.MainListener;
 import me.trae.smp.utility.UtilMessage;
 import me.trae.smp.utility.UtilTime;
@@ -14,8 +17,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ServerListener extends MainListener {
 
+    private final String[] tips;
+    private int count;
+
     public ServerListener(final Main instance) {
         super(instance, true);
+        this.tips = new String[]{
+                "Want to spice your base up with a bit more of a decroration? Type '" + ChatColor.AQUA + "/dye" + ChatColor.GRAY + " to dye items.",
+                "Want to check yours or others Playtime? Type '" + ChatColor.AQUA + "/playtime" + ChatColor.GRAY + " to check Playtime.",
+                "Type '" + ChatColor.AQUA + "/help" + ChatColor.GRAY + "' for a list of commands.",
+                "Want to check a player's statistics? Type '" + ChatColor.AQUA + "/stats" + ChatColor.GRAY + " to check Player Statistics."
+
+        };
+        this.count = 0;
     }
 
     @EventHandler
@@ -45,6 +59,11 @@ public class ServerListener extends MainListener {
         if (getInstance().isStoppedByForce()) {
             Bukkit.getOnlinePlayers().forEach(p -> p.kickPlayer(ChatColor.WHITE + "Server is stopping or restarting!"));
         }
+        for (final BlockRestoreData data : getInstance().getBlockRestoreUtilities().getDataList()) {
+            if (data != null) {
+                data.restore();
+            }
+        }
         getInstance().getRepository().setLastServerStop();
         UtilMessage.log("SMP-Core", ChatColor.RED + "Plugin Disabled!");
         new BukkitRunnable() {
@@ -52,6 +71,19 @@ public class ServerListener extends MainListener {
             public void run() {
                 Bukkit.shutdown();
             }
-        }.runTaskLater(getInstance(), 10L);
+        }.runTaskLater(getInstance(), 20L);
+    }
+
+    @EventHandler
+    public void onUpdate(final UpdateEvent e) {
+        if (e.getType() == Updater.UpdateType.MIN_10) {
+            if (this.count >= this.tips.length - 1) {
+                this.count = 0;
+            }
+            if (this.tips.length > 0) {
+                UtilMessage.broadcast("Tips", tips[count], null);
+            }
+            this.count++;
+        }
     }
 }

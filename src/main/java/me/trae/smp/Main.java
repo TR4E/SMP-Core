@@ -4,13 +4,13 @@ import me.trae.smp.client.ClientManager;
 import me.trae.smp.client.ClientRepository;
 import me.trae.smp.client.ClientUtilities;
 import me.trae.smp.client.commands.*;
-import me.trae.smp.client.commands.staff.AltsCommand;
-import me.trae.smp.client.commands.staff.ClientCommand;
-import me.trae.smp.client.commands.staff.MuteCommand;
+import me.trae.smp.client.commands.staff.*;
 import me.trae.smp.client.commands.teleport.BackCommand;
 import me.trae.smp.client.commands.teleport.DelhomeCommand;
 import me.trae.smp.client.commands.teleport.HomeCommand;
 import me.trae.smp.client.commands.teleport.SethomeCommand;
+import me.trae.smp.client.commands.teleport.tpa.TPAAcceptCommand;
+import me.trae.smp.client.commands.teleport.tpa.TPACommand;
 import me.trae.smp.client.listeners.ConnectionListener;
 import me.trae.smp.command.CommandManager;
 import me.trae.smp.config.ConfigManager;
@@ -19,15 +19,13 @@ import me.trae.smp.config.commands.ReloadCommand;
 import me.trae.smp.events.ServerStartEvent;
 import me.trae.smp.events.ServerStopEvent;
 import me.trae.smp.framework.TitleManager;
+import me.trae.smp.framework.blockrestore.BlockRestoreUtilities;
 import me.trae.smp.framework.recharge.RechargeManager;
 import me.trae.smp.framework.update.Updater;
 import me.trae.smp.gamer.GamerManager;
 import me.trae.smp.gamer.GamerRepository;
 import me.trae.smp.gamer.GamerUtilities;
-import me.trae.smp.world.ChatListener;
-import me.trae.smp.world.PreConnectionListener;
-import me.trae.smp.world.ServerListener;
-import me.trae.smp.world.WorldListener;
+import me.trae.smp.world.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,6 +39,7 @@ public class Main extends JavaPlugin {
     private GamerRepository gamerRepository;
     private ClientUtilities clientUtilities;
     private GamerUtilities gamerUtilities;
+    private BlockRestoreUtilities blockRestoreUtilities;
     private CommandManager commandManager;
     private RechargeManager rechargeManager;
     private TitleManager titleManager;
@@ -67,6 +66,7 @@ public class Main extends JavaPlugin {
         this.gamerRepository = new GamerRepository(this);
         this.clientUtilities = new ClientUtilities(this);
         this.gamerUtilities = new GamerUtilities(this);
+        this.blockRestoreUtilities = new BlockRestoreUtilities(this);
         this.commandManager = new CommandManager(this);
         this.rechargeManager = new RechargeManager(this);
         this.titleManager = new TitleManager(this);
@@ -81,6 +81,7 @@ public class Main extends JavaPlugin {
         new ClientManager(this);
         new GamerManager(this);
         new ChatListener(this);
+        new ExplosionListener(this);
         new ServerListener(this);
         new WorldListener(this);
     }
@@ -88,7 +89,11 @@ public class Main extends JavaPlugin {
     private void registerCommands() {
         getCommandManager().addCommand(new AltsCommand(this));
         getCommandManager().addCommand(new ClientCommand(this));
+        getCommandManager().addCommand(new ExplosionHealCommand(this));
         getCommandManager().addCommand(new MuteCommand(this));
+        getCommandManager().addCommand(new ObserverCommand(this));
+        getCommandManager().addCommand(new TPAAcceptCommand(this));
+        getCommandManager().addCommand(new TPACommand(this));
         getCommandManager().addCommand(new BackCommand(this));
         getCommandManager().addCommand(new SethomeCommand(this));
         getCommandManager().addCommand(new DelhomeCommand(this));
@@ -140,6 +145,10 @@ public class Main extends JavaPlugin {
 
     public final GamerUtilities getGamerUtilities() {
         return gamerUtilities;
+    }
+
+    public final BlockRestoreUtilities getBlockRestoreUtilities() {
+        return blockRestoreUtilities;
     }
 
     public final CommandManager getCommandManager() {

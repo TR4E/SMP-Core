@@ -23,6 +23,7 @@ public class ConfigManager {
                 config.getConfig().set("Booleans.Game.Always-Night", false);
                 config.getConfig().set("Booleans.Game.Weather", false);
                 config.getConfig().set("Booleans.Game.PvP", true);
+                config.getConfig().set("Booleans.Game.Explosion-Heal", false);
                 config.getConfig().set("Strings.Server.MOTD", "&6A Minecraft Server.");
             } else if (type.equals(ConfigType.MAIN_DATA)) {
                 config.getConfig().set("Last-Server-Start", 0);

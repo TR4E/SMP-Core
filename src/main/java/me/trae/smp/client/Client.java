@@ -19,7 +19,8 @@ public class Client {
     private Rank rank;
     private long firstJoined, lastJoined, lastOnline, playtime;
     private boolean newClient, muted;
-    private Location homeLocation, backLocation;
+    private Location homeLocation, backLocation, observerLocation;
+    private UUID tpa;
 
     public Client(final UUID uuid) {
         this.uuid = uuid;
@@ -154,5 +155,25 @@ public class Client {
 
     public void setBackLocation(final Location backLocation) {
         this.backLocation = backLocation;
+    }
+
+    public final Location getObserverLocation() {
+        return observerLocation;
+    }
+
+    public void setObserverLocation(final Location observerLocation) {
+        this.observerLocation = observerLocation;
+    }
+
+    public final boolean isObserving() {
+        return getObserverLocation() != null;
+    }
+
+    public final UUID getTPA() {
+        return tpa;
+    }
+
+    public void setTPA(final UUID tpa) {
+        this.tpa = tpa;
     }
 }

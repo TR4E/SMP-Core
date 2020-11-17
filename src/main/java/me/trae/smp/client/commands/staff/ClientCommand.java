@@ -118,7 +118,7 @@ public class ClientCommand extends Command {
         if (targetP != null) {
             targetP.playSound(targetP.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F);
         }
-        UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " promoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".");
+        UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " promoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".", null);
     }
 
     private void demoteCommand(final Player player, final String[] args) {
@@ -148,7 +148,7 @@ public class ClientCommand extends Command {
         if (targetP != null) {
             targetP.playSound(targetP.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 2.0F);
         }
-        UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " demoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".");
+        UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " demoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".", null);
     }
 
     private void listCommand(final Player player, final String[] args) {

@@ -4,6 +4,7 @@ import me.trae.smp.Main;
 import me.trae.smp.client.Rank;
 import me.trae.smp.command.Command;
 import me.trae.smp.utility.UtilFormat;
+import me.trae.smp.utility.UtilItem;
 import me.trae.smp.utility.UtilMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -41,12 +42,13 @@ public class DyeCommand extends Command {
             addColorToItem(player, item, null);
         } else {
             final DyeColor dye = searchDye(player, args[0], true);
-            if (dye != null) {
-                addColorToItem(player, item, dye);
-                dyeName = UtilFormat.cleanString(dye.name());
+            if (dye == null) {
+                return;
             }
+            addColorToItem(player, item, dye);
+            dyeName = UtilFormat.cleanString(dye.name());
         }
-        UtilMessage.message(player, "Dye", "You successfully dyed " + ChatColor.GREEN + UtilFormat.cleanString(item.getType().name()) + ChatColor.GRAY + " to " + ChatColor.YELLOW + dyeName + ChatColor.GRAY + ".");
+        UtilMessage.message(player, "Dye", "You successfully dyed " + ChatColor.GREEN + UtilItem.getItemNameWithoutColor(item) + ChatColor.GRAY + " to " + ChatColor.YELLOW + dyeName + ChatColor.GRAY + ".");
     }
 
     @Override
@@ -81,21 +83,41 @@ public class DyeCommand extends Command {
             return true;
         }
         UtilMessage.message(player, "Dye", "You cannot dye this Item.");
-        UtilMessage.message(player, "Dye", "Available Items: " + "[" + ChatColor.WHITE + "Wool" + ChatColor.GRAY + ", " + ChatColor.WHITE + "Glass" + ChatColor.GRAY + ", " + ChatColor.WHITE + "Concrete" + ChatColor.GRAY + ", " + ChatColor.YELLOW + "Terracotta" + ChatColor.GRAY + ", " + ChatColor.WHITE + "Leather Armour" + ChatColor.GRAY + "] ");
+        UtilMessage.message(player, "Dye", "Available Items: " + "[" + ChatColor.WHITE + "Wool" + ChatColor.GRAY + ", " + ChatColor.WHITE + "Glass" + ChatColor.GRAY + ", " + ChatColor.WHITE + "Concrete" + ChatColor.GRAY + ", " + ChatColor.WHITE + "Terracotta" + ChatColor.GRAY + ", " + ChatColor.WHITE + "Leather Armour" + ChatColor.GRAY + "] ");
         return false;
     }
 
     private void addColorToItem(final Player player, final ItemStack item, final DyeColor dye) {
         if (item.getType().name().contains("WOOL")) {
-            item.setType(Material.valueOf(dye.name() + "_WOOL"));
+            if (dye == null) {
+                player.getInventory().setItemInMainHand(new ItemStack(Material.WHITE_WOOL, item.getAmount()));
+            } else {
+                item.setType(Material.valueOf(dye.name() + "_WOOL"));
+            }
         } else if (item.getType().name().contains("CARPET")) {
-            item.setType(Material.valueOf(dye.name() + "_CARPET"));
+            if (dye == null) {
+                player.getInventory().setItemInMainHand(new ItemStack(Material.WHITE_CARPET, item.getAmount()));
+            } else {
+                item.setType(Material.valueOf(dye.name() + "_CARPET"));
+            }
         } else if (item.getType().name().contains("CONCRETE_POWDER")) {
-            item.setType(Material.valueOf(dye.name() + "_CONCRETE_POWDER"));
+            if (dye == null) {
+                player.getInventory().setItemInMainHand(new ItemStack(Material.WHITE_CONCRETE_POWDER, item.getAmount()));
+            } else {
+                item.setType(Material.valueOf(dye.name() + "_CONCRETE_POWDER"));
+            }
         } else if (item.getType().name().contains("CONCRETE")) {
-            item.setType(Material.valueOf(dye.name() + "_CONCRETE"));
+            if (dye == null) {
+                player.getInventory().setItemInMainHand(new ItemStack(Material.WHITE_CONCRETE, item.getAmount()));
+            } else {
+                item.setType(Material.valueOf(dye.name() + "_CONCRETE"));
+            }
         } else if (item.getType().name().contains("TERRACOTTA")) {
-            item.setType(Material.valueOf(dye.name() + "_TERRACOTTA"));
+            if (dye == null) {
+                player.getInventory().setItemInMainHand(new ItemStack(Material.WHITE_TERRACOTTA, item.getAmount()));
+            } else {
+                item.setType(Material.valueOf(dye.name() + "_TERRACOTTA"));
+            }
         } else if (item.getType().name().startsWith("LEATHER_")) {
             if (dye == null) {
                 player.getInventory().setItemInMainHand(new ItemStack(item.getType(), item.getAmount()));
