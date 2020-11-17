@@ -77,7 +77,7 @@ public class ServerListener extends MainListener {
 
     @EventHandler
     public void onUpdate(final UpdateEvent e) {
-        if (e.getType() == Updater.UpdateType.MIN_05) {
+        if (e.getType() == Updater.UpdateType.MIN_10) {
             if (Bukkit.getOnlinePlayers().size() <= 0) {
                 return;
             }

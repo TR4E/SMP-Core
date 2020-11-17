@@ -31,7 +31,7 @@ public class AltsCommand extends Command {
             final Set<Client> alts = getInstance().getClientUtilities().getAltsOfClient(target.getUUID());
             if (alts.size() > 0) {
                 UtilMessage.message(player, "Alts", ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " has " + ChatColor.YELLOW + alts.size() + ChatColor.GRAY + " alternative accounts on this server.");
-                UtilMessage.message(player, "Alts", "[" + ChatColor.YELLOW + alts.stream().map(Client::getName).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
+                UtilMessage.message(player, "Alts", "[" + ChatColor.YELLOW + alts.stream().map(c -> ChatColor.YELLOW + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
             } else {
                 UtilMessage.message(player, "Alts", ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " has no alternative accounts on this server.");
             }

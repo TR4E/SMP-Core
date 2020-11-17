@@ -49,6 +49,7 @@ public class ClientCommand extends Command {
         UtilMessage.message(player, ChatColor.AQUA + "/client search <client>" + ChatColor.GRAY + " - " + "Search a Client.");
         UtilMessage.message(player, ChatColor.AQUA + "/client promote <client>" + ChatColor.GRAY + " - " + "Promote a Client.");
         UtilMessage.message(player, ChatColor.AQUA + "/client demote <client>" + ChatColor.GRAY + " - " + "Demote a Client.");
+        UtilMessage.message(player, ChatColor.AQUA + "/client list" + ChatColor.GRAY + " - " + "Show Clients List.");
     }
 
     private void searchCommand(final Player player, final String[] args) {
