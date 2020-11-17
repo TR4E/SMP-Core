@@ -117,6 +117,7 @@ public class ClientCommand extends Command {
         final Player targetP = Bukkit.getPlayer(target.getUUID());
         if (targetP != null) {
             targetP.playSound(targetP.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F);
+            targetP.setPlayerListName(target.getDisplayName());
         }
         UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " promoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".", null);
     }
@@ -147,6 +148,7 @@ public class ClientCommand extends Command {
         final Player targetP = Bukkit.getPlayer(target.getUUID());
         if (targetP != null) {
             targetP.playSound(targetP.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 2.0F);
+            targetP.setPlayerListName(target.getDisplayName());
         }
         UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " demoted " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " to " + ChatColor.RESET + target.getRank().getTag(true) + ChatColor.GRAY + ".", null);
     }

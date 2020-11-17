@@ -11,6 +11,8 @@ import me.trae.smp.utility.UtilMessage;
 import me.trae.smp.utility.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,11 +25,10 @@ public class ServerListener extends MainListener {
     public ServerListener(final Main instance) {
         super(instance, true);
         this.tips = new String[]{
-                "Want to spice your base up with a bit more of a decroration? Type '" + ChatColor.AQUA + "/dye" + ChatColor.GRAY + " to dye items.",
-                "Want to check yours or others Playtime? Type '" + ChatColor.AQUA + "/playtime" + ChatColor.GRAY + " to check Playtime.",
+                "Want to have more decoration? Type '" + ChatColor.AQUA + "/dye" + ChatColor.GRAY + "' to dye items.",
+                "Want to check yours or others Playtime? Type '" + ChatColor.AQUA + "/playtime" + ChatColor.GRAY + "' to check Playtime.",
                 "Type '" + ChatColor.AQUA + "/help" + ChatColor.GRAY + "' for a list of commands.",
-                "Want to check a player's statistics? Type '" + ChatColor.AQUA + "/stats" + ChatColor.GRAY + " to check Player Statistics."
-
+                "Want to check a player's statistics? Type '" + ChatColor.AQUA + "/stats" + ChatColor.GRAY + "' to check Player Statistics."
         };
         this.count = 0;
     }
@@ -76,12 +77,18 @@ public class ServerListener extends MainListener {
 
     @EventHandler
     public void onUpdate(final UpdateEvent e) {
-        if (e.getType() == Updater.UpdateType.MIN_10) {
+        if (e.getType() == Updater.UpdateType.MIN_05) {
+            if (Bukkit.getOnlinePlayers().size() <= 0) {
+                return;
+            }
             if (this.count >= this.tips.length - 1) {
                 this.count = 0;
             }
             if (this.tips.length > 0) {
-                UtilMessage.broadcast("Tips", tips[count], null);
+                for (final Player player : Bukkit.getOnlinePlayers()) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 2.0F);
+                    UtilMessage.message(player, "Tips", tips[count]);
+                }
             }
             this.count++;
         }

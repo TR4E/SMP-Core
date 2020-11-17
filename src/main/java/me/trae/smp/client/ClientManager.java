@@ -29,9 +29,6 @@ public class ClientManager extends MainListener {
             return;
         }
         final Player player = e.getPlayer();
-        if (player != null) {
-            player.setPlayerListName(client.getDisplayName());
-        }
         switch (e.getRank()) {
             case MEMBER:
                 if (player != null) {
@@ -48,9 +45,6 @@ public class ClientManager extends MainListener {
             return;
         }
         final Player player = e.getPlayer();
-        if (player != null) {
-            player.setPlayerListName(client.getDisplayName());
-        }
         switch (e.getRank()) {
             case MEMBER:
                 if (player != null) {

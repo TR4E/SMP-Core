@@ -28,7 +28,7 @@ public class ChatListener extends MainListener {
             UtilMessage.message(player, "Punish", "You are currently muted!");
             return;
         }
-        if (!(client.hasRank(Rank.MOD, false)) && !(getInstance().getRechargeManager().add(player, "Chat", 500L, false))) {
+        if (!(client.hasRank(Rank.MOD, false)) && !(getInstance().getRechargeManager().add(player, "Chat", (client.hasRank(Rank.MEMBER, false) ? 1000L : 2000L), false))) {
             UtilMessage.message(player, "Chat", "Please wait " + ChatColor.GREEN + getInstance().getRechargeManager().getCooldownLeft(player, "Chat") + ChatColor.GRAY + " before sending a new message.");
             return;
         }

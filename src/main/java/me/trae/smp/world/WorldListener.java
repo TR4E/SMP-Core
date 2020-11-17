@@ -88,24 +88,10 @@ public class WorldListener extends MainListener {
             }
             if (!(getInstance().getClientUtilities().isTrusted(player))) {
                 e.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerDamageByPlayer(final EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
-            if (!(getInstance().getRepository().isPvP())) {
-                e.setCancelled(true);
                 return;
             }
-            final Player player = (Player) e.getDamager();
-            final Client client = getInstance().getClientUtilities().getOnlineClient(player.getUniqueId());
-            if (client == null) {
-                return;
-            }
-            if (!(getInstance().getClientUtilities().isTrusted(player))) {
-                e.setCancelled(true);
+            if (e.getInventory().getStorageContents().length > 0) {
+                UtilItem.updateItems(e.getInventory());
             }
         }
     }

@@ -11,9 +11,9 @@ public final class BlockRestoreData {
     private final Main instance;
     private final Sound sound;
     private Block block;
-    private Material material, oldMaterial;
+    private final Material oldMaterial;
+    private Material material;
     private BlockData data;
-    private byte oldData;
     private long expire;
 
     public BlockRestoreData(final Main instance, final Block block, final Material material, final long expire, final Sound sound) {
@@ -22,7 +22,6 @@ public final class BlockRestoreData {
         this.material = material;
         this.data = block.getBlockData();
         this.oldMaterial = block.getType();
-        this.oldData = block.getData();
         this.expire = System.currentTimeMillis() + expire;
         this.sound = sound;
         if (!(instance.getBlockRestoreUtilities().isRestoredBlock(block))) {
@@ -51,24 +50,12 @@ public final class BlockRestoreData {
         return oldMaterial;
     }
 
-    public void setOldMaterial(final Material oldMaterial) {
-        this.oldMaterial = oldMaterial;
-    }
-
     public final BlockData getData() {
         return data;
     }
 
     public void setData(final BlockData data) {
         this.data = data;
-    }
-
-    public final byte getOldData() {
-        return oldData;
-    }
-
-    public void setOldData(final byte oldData) {
-        this.oldData = oldData;
     }
 
     public final long getExpire() {
@@ -85,10 +72,12 @@ public final class BlockRestoreData {
 
     public void setRestoreData() {
         getBlock().setType(getMaterial());
+        getBlock().setBlockData(getData());
     }
 
     public void restore() {
-        getBlock().setType(getOldMaterial());
+        setRestoreData();
+        getBlock().getState().update();
         setExpire(0L);
         if (getSound() != null) {
             getBlock().getWorld().playSound(getBlock().getLocation(), getSound(), 1.0F, 1.0F);
@@ -99,6 +88,6 @@ public final class BlockRestoreData {
         setBlock(block);
         setMaterial(material);
         setData(block.getBlockData());
-        setExpire(expire);
+        setExpire(System.currentTimeMillis() + expire);
     }
 }

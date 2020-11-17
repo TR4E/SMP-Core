@@ -45,9 +45,9 @@ public class HomeCommand extends Command {
                 UtilMessage.message(player, "Home", ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " does not have a Home set.");
                 return;
             }
-            player.teleport(UtilLocation.toCenter(target.getHomeLocation(), UtilLocation.DirectionType.SOUTH));
+            player.teleport(UtilLocation.toCenter(target.getHomeLocation(), null));
             player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
-            getInstance().getTitleManager().sendPlayer(player, ChatColor.YELLOW.toString() + ChatColor.BOLD + "Home", ChatColor.WHITE + "You teleported to " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + "'s Home.", 2);
+            getInstance().getTitleManager().sendPlayer(player, ChatColor.YELLOW.toString() + ChatColor.BOLD + "Home", ChatColor.WHITE + "You teleported to " + ChatColor.YELLOW + target.getName() + ChatColor.WHITE + "'s Home.", 2);
             UtilMessage.message(player, "Home", "You teleported to " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + "'s Home.");
         }
     }

@@ -17,7 +17,7 @@ public class ExplosionListener extends MainListener {
     }
 
     @EventHandler
-    public void onExplode(final EntityExplodeEvent e) {
+    public void onEntityExplode(final EntityExplodeEvent e) {
         if (!(getInstance().getRepository().isExplosionHeal())) {
             return;
         }
@@ -26,6 +26,7 @@ public class ExplosionListener extends MainListener {
                 continue;
             }
             new BlockRestoreData(getInstance(), block, Material.AIR, UtilMath.randomInt(10000, 20000), Sound.BLOCK_STONE_PLACE);
+            block.setType(Material.AIR);
         }
     }
 }

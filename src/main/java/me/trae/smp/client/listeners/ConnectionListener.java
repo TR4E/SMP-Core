@@ -5,6 +5,7 @@ import me.trae.smp.client.Client;
 import me.trae.smp.client.Rank;
 import me.trae.smp.gamer.Gamer;
 import me.trae.smp.module.MainListener;
+import me.trae.smp.utility.UtilItem;
 import me.trae.smp.utility.UtilLocation;
 import me.trae.smp.utility.UtilMessage;
 import org.bukkit.ChatColor;
@@ -79,6 +80,7 @@ public class ConnectionListener extends MainListener {
             player.setGameMode(GameMode.SURVIVAL);
         }
         player.setPlayerListName(client.getDisplayName());
+        UtilItem.updateItems(player.getInventory());
         getInstance().getTitleManager().sendPlayer(player, (client.isNewClient() ? ChatColor.RED.toString() + ChatColor.BOLD + "Welcome" : ChatColor.RED.toString() + ChatColor.BOLD + "Welcome back"), " ", 2);
     }
 

@@ -81,6 +81,7 @@ public class Main extends JavaPlugin {
         new ClientManager(this);
         new GamerManager(this);
         new ChatListener(this);
+        new CombatListener(this);
         new ExplosionListener(this);
         new ServerListener(this);
         new WorldListener(this);
