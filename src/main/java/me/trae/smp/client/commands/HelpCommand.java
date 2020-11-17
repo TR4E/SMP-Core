@@ -29,22 +29,22 @@ public class HelpCommand extends Command {
     public void help(final Player player) {
         UtilMessage.message(player, "Help", "Commands List:");
         sendMessage(player, "/smpreload", "Reload Configurations.", Rank.OWNER);
+        sendMessage(player, "/tntheal", "Regenerate Explosion Blocks.", Rank.OWNER);
         sendMessage(player, "/client", "Client Management.", Rank.MOD);
         sendMessage(player, "/observer", "Toggle Observer Mode.", Rank.MOD);
-        sendMessage(player, "/mute <player>", "Mute a Player.", Rank.MEMBER);
-        sendMessage(player, "/playtime <player>", "Show Playtime.", Rank.MEMBER);
+        sendMessage(player, "/mute <client>", "Mute a Player.", Rank.MOD);
+        sendMessage(player, "/alts <client>", "Show Alts of a Client.", Rank.MOD);
+        sendMessage(player, "/playtime <client>", "Show Playtime.", Rank.MEMBER);
         sendMessage(player, "/ping <player>", "Show Ping.", Rank.MEMBER);
         sendMessage(player, "/stats <player>", "Show Statistics.", Rank.MEMBER);
         sendMessage(player, "/list", "Show Online Players.", Rank.MEMBER);
-        sendMessage(player, "/tpa <player>", "Teleport to Home.", Rank.MEMBER);
-        sendMessage(player, "/tpaccept", "Teleport to Home.", Rank.MEMBER);
+        sendMessage(player, "/tpa <player>", "Request a TP.", Rank.MEMBER);
+        sendMessage(player, "/tpaccept", "Accept a TP Request.", Rank.MEMBER);
         sendMessage(player, "/sethome", "Create a Home.", Rank.MEMBER);
         sendMessage(player, "/delhome", "Delete a Home.", Rank.MEMBER);
         sendMessage(player, "/home", "Teleport to Home.", Rank.MEMBER);
         sendMessage(player, "/back", "Teleport to Last Death Location.", Rank.MEMBER);
         sendMessage(player, "/dye <color>", "Dye a Item.", Rank.MEMBER);
-        sendMessage(player, "/home", "Teleport to Home.", Rank.MEMBER);
-        sendMessage(player, "/home", "Teleport to Home.", Rank.MEMBER);
     }
 
     private void sendMessage(final Player player, final String cmd, final String description, final Rank requiredRank) {
