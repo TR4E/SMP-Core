@@ -87,7 +87,7 @@ public class ClientCommand extends Command {
             UtilMessage.message(player, ChatColor.DARK_GREEN + "Last Joined: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getLastJoined(), UtilTime.TimeUnit.BEST, 1) + " ago");
         }
         if (targetP == null) {
-            UtilMessage.message(player, ChatColor.DARK_GREEN + "Last Online: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getLastOnline(), UtilTime.TimeUnit.BEST, 1));
+            UtilMessage.message(player, ChatColor.DARK_GREEN + "Last Online: " + ChatColor.WHITE + UtilTime.getTime(System.currentTimeMillis() - target.getLastOnline(), UtilTime.TimeUnit.BEST, 1) + " ago");
         }
         UtilMessage.message(player, ChatColor.DARK_GREEN + "Playtime: " + ChatColor.WHITE + target.getPlaytimeString());
     }
@@ -112,7 +112,7 @@ public class ClientCommand extends Command {
             UtilMessage.message(player, "Client", "You cannot promote " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " any further.");
             return;
         }
-        target.setRank(Rank.getRank(target.getRank().getId() + 1));
+        target.setRank(Rank.getRank(target.getRank().ordinal() + 1));
         getInstance().getClientRepository().updateRank(target);
         Bukkit.getServer().getPluginManager().callEvent(new ClientPromoteEvent(getInstance(), target.getUUID(), target.getRank()));
         final Player targetP = Bukkit.getPlayer(target.getUUID());
@@ -144,7 +144,7 @@ public class ClientCommand extends Command {
             return;
         }
         Bukkit.getServer().getPluginManager().callEvent(new ClientDemoteEvent(getInstance(), target.getUUID(), target.getRank()));
-        target.setRank(Rank.getRank(target.getRank().getId() - 1));
+        target.setRank(Rank.getRank(target.getRank().ordinal() - 1));
         getInstance().getClientRepository().updateRank(target);
         final Player targetP = Bukkit.getPlayer(target.getUUID());
         if (targetP != null) {
@@ -164,7 +164,7 @@ public class ClientCommand extends Command {
         }
         if (args.length == 1) {
             UtilMessage.message(player, "Clients", "Showing a List of " + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().size() + ChatColor.GRAY + " Clients:");
-            UtilMessage.message(player, "Clients", "[" + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().values().stream().map(c -> c.getRank().getColor() + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
+            UtilMessage.message(player, "Clients", "[" + ChatColor.YELLOW + getInstance().getClientUtilities().getClients().values().stream().sorted((o1, o2) -> o2.getRank().compareTo(o1.getRank())).map(c -> c.getRank().getColor() + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", ")) + ChatColor.GRAY + "].");
         }
     }
 }

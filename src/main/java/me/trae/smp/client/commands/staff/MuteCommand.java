@@ -33,7 +33,7 @@ public class MuteCommand extends Command {
                 UtilMessage.message(player, "Punish", "You cannot mute yourself.");
                 return;
             }
-            if (target.getRank().getId() >= client.getRank().getId()) {
+            if (target.getRank().ordinal() >= client.getRank().ordinal()) {
                 UtilMessage.message(player, "Punish", "You do not outrank " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + ".");
                 return;
             }

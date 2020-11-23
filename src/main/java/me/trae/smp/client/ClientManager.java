@@ -8,6 +8,8 @@ import me.trae.smp.utility.UtilPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -61,5 +63,15 @@ public class ClientManager extends MainListener {
                 }
                 break;
         }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerQuit(final PlayerQuitEvent e) {
+        final Player player = e.getPlayer();
+        final Client client = getInstance().getClientUtilities().getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return;
+        }
+        getInstance().getClientUtilities().removeOnlineClient(client);
     }
 }

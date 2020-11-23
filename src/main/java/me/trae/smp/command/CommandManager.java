@@ -58,11 +58,6 @@ public class CommandManager extends MainListener {
             if (e.getMessage().startsWith("/?")) {
                 e.setMessage("/help");
             }
-            if (e.getMessage().startsWith("/?")) {
-                e.setCancelled(true);
-                UtilMessage.message(player, "Permissions", "This requires the Permission Rank [" + ChatColor.DARK_RED + "Owner" + ChatColor.GRAY + "].");
-                return;
-            }
         }
         if (e.getMessage().equalsIgnoreCase("/restart") || e.getMessage().equalsIgnoreCase("/stop")) {
             e.setCancelled(true);

@@ -75,7 +75,7 @@ public class Client {
         if (player != null && player.isOp()) {
             return true;
         }
-        if (!(getRank().getId() >= rank.getId())) {
+        if (!(getRank().ordinal() >= rank.ordinal())) {
             if (inform) {
                 if (player != null) {
                     UtilMessage.message(player, "Permissions", "This requires the Permission Rank [" + rank.getTag(false) + ChatColor.GRAY + "].");

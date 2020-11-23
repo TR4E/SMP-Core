@@ -12,4 +12,15 @@ public class UtilFormat {
     public static String getStatus(final boolean b, final boolean color) {
         return (b ? (color ? ChatColor.GREEN : "") + "Enabled" : (color ? ChatColor.RED : "") + "Disabled");
     }
+
+    public static String getFinalArg(final String[] args, final int start) {
+        final StringBuilder bldr = new StringBuilder();
+        for (int i = start; i < args.length; i++) {
+            if (i != start) {
+                bldr.append(" ");
+            }
+            bldr.append(args[i]);
+        }
+        return bldr.toString();
+    }
 }

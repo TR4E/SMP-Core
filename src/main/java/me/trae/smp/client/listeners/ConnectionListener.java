@@ -25,7 +25,7 @@ public class ConnectionListener extends MainListener {
         super(instance, true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerLogin(final PlayerLoginEvent e) {
         if (!(getInstance().hasStarted())) {
             return;
@@ -57,7 +57,7 @@ public class ConnectionListener extends MainListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(final PlayerJoinEvent e) {
         e.setJoinMessage(null);
         final Player player = e.getPlayer();
@@ -101,7 +101,7 @@ public class ConnectionListener extends MainListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(final PlayerQuitEvent e) {
         e.setQuitMessage(null);
         final Player player = e.getPlayer();
@@ -126,7 +126,6 @@ public class ConnectionListener extends MainListener {
         if (gamer != null) {
             getInstance().getGamerUtilities().removeGamer(gamer);
         }
-        getInstance().getClientUtilities().removeOnlineClient(client);
         UtilMessage.broadcast(ChatColor.RED + "Quit> " + ChatColor.GRAY + player.getName(), null);
     }
 }

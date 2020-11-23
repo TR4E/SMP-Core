@@ -68,7 +68,7 @@ public class ObserverCommand extends Command {
 
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerQuit(final PlayerQuitEvent e) {
         final Player player = e.getPlayer();
         final Client client = getInstance().getClientUtilities().getOnlineClient(player.getUniqueId());
