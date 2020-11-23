@@ -5,10 +5,7 @@ import me.trae.smp.client.ClientRepository;
 import me.trae.smp.client.ClientUtilities;
 import me.trae.smp.client.commands.*;
 import me.trae.smp.client.commands.staff.*;
-import me.trae.smp.client.commands.teleport.BackCommand;
-import me.trae.smp.client.commands.teleport.DelhomeCommand;
-import me.trae.smp.client.commands.teleport.HomeCommand;
-import me.trae.smp.client.commands.teleport.SethomeCommand;
+import me.trae.smp.client.commands.teleport.*;
 import me.trae.smp.client.commands.teleport.tpa.TPAAcceptCommand;
 import me.trae.smp.client.commands.teleport.tpa.TPACommand;
 import me.trae.smp.client.listeners.ConnectionListener;
@@ -106,6 +103,7 @@ public class Main extends JavaPlugin {
         getCommandManager().addCommand(new ReloadCommand(this));
         getCommandManager().addCommand(new PlaytimeCommand(this));
         getCommandManager().addCommand(new StatsCommand(this));
+        getCommandManager().addCommand(new TeleportCommand(this));
     }
 
     public final boolean hasStarted() {
