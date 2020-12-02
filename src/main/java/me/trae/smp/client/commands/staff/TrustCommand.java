@@ -44,6 +44,7 @@ public class TrustCommand extends Command {
             } else {
                 target.setRank(Rank.MEMBER);
             }
+            getInstance().getClientRepository().updateRank(target);
             UtilMessage.broadcast("Client", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + (target.getRank().equals(Rank.MEMBER) ? " trusted " : " un-trusted ") + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + ".", null);
         }
     }
