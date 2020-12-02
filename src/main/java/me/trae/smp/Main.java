@@ -104,6 +104,7 @@ public class Main extends JavaPlugin {
         getCommandManager().addCommand(new PlaytimeCommand(this));
         getCommandManager().addCommand(new StatsCommand(this));
         getCommandManager().addCommand(new TeleportCommand(this));
+        getCommandManager().addCommand(new TrustCommand(this));
     }
 
     public final boolean hasStarted() {

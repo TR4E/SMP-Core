@@ -3,8 +3,6 @@ package me.trae.smp.world;
 import me.trae.smp.Main;
 import me.trae.smp.client.Client;
 import me.trae.smp.module.MainListener;
-import me.trae.smp.utility.UtilMessage;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -47,7 +45,6 @@ public class CombatListener extends MainListener {
                 return;
             }
             setAttackSpeed(player, 16.0D);
-            UtilMessage.message(player, "Damage", "You dealt " + ChatColor.GREEN + e.getDamage() + ChatColor.GRAY + " damage.");
         }
     }
 
