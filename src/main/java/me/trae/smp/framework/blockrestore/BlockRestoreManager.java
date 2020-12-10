@@ -70,7 +70,7 @@ public final class BlockRestoreManager extends MainListener {
             if (block.getType() != Material.AIR) {
                 if (getInstance().getBlockRestoreUtilities().isRestoredBlock(block)) {
                     e.setCancelled(true);
-                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType().ordinal());
+                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType().getId());
                 }
             }
         }
@@ -82,7 +82,7 @@ public final class BlockRestoreManager extends MainListener {
         if (block.getType() != Material.AIR) {
             if (getInstance().getBlockRestoreUtilities().isRestoredBlock(block)) {
                 e.setCancelled(true);
-                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType().ordinal());
+                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType().getId());
             }
         }
     }
